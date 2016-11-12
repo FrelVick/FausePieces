@@ -78,11 +78,16 @@
             // numberOfBags
             // 
             this.numberOfBags.Location = new System.Drawing.Point(121, 13);
+            this.numberOfBags.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
             this.numberOfBags.Name = "numberOfBags";
             this.numberOfBags.Size = new System.Drawing.Size(46, 20);
             this.numberOfBags.TabIndex = 4;
             this.numberOfBags.Value = new decimal(new int[] {
-            3,
+            5,
             0,
             0,
             0});
@@ -108,7 +113,7 @@
             this.maxPieces.Size = new System.Drawing.Size(43, 20);
             this.maxPieces.TabIndex = 6;
             this.maxPieces.Value = new decimal(new int[] {
-            6,
+            20,
             0,
             0,
             0});
