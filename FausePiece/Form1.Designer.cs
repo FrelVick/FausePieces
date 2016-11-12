@@ -37,6 +37,7 @@
             this.maxPieces = new System.Windows.Forms.NumericUpDown();
             this.Log = new System.Windows.Forms.RichTextBox();
             this.Refresh = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.numberOfBags)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPieces)).BeginInit();
             this.SuspendLayout();
@@ -53,7 +54,7 @@
             // 
             // Answer
             // 
-            this.Answer.Location = new System.Drawing.Point(29, 154);
+            this.Answer.Location = new System.Drawing.Point(32, 154);
             this.Answer.Name = "Answer";
             this.Answer.Size = new System.Drawing.Size(383, 20);
             this.Answer.TabIndex = 1;
@@ -137,11 +138,19 @@
             this.Refresh.UseVisualStyleBackColor = true;
             this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(32, 180);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(383, 23);
+            this.progressBar1.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(760, 328);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.Refresh);
             this.Controls.Add(this.Log);
             this.Controls.Add(this.maxPieces);
@@ -153,6 +162,7 @@
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.numberOfBags)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPieces)).EndInit();
             this.ResumeLayout(false);
@@ -171,6 +181,7 @@
         private System.Windows.Forms.NumericUpDown maxPieces;
         private System.Windows.Forms.RichTextBox Log;
         private System.Windows.Forms.Button Refresh;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

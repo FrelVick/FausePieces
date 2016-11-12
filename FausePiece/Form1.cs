@@ -24,15 +24,36 @@ namespace FausePiece
             _ourBags.MaxValue = (int) maxPieces.Value + 1;
             _calculateThread = new Thread(Bags.FindMinimalBags);
             _calculateThread.Start(_ourBags);
+            button1.Text = @"Working...";
+            button1.Enabled = false;
         }
 
         private void Refresh_Click(object sender, EventArgs e)
         {
-            Log.Text += _ourBags.GetBagsAsString() + @";
+            foreach (var i in _ourBags.BagsValue)
+            {
+                Log.Text += i+@", ";
+            }
+            Log.Text += @"; actual
+";
+            Log.Text += _ourBags.GetBagsAsString() + @"; minimal
 ";
             LocalMax.Text = _ourBags.MaxValue.ToString();
             Answer.Text = _ourBags.GetBagsAsString();
+            progressBar1.Value=_ourBags.BagsValue[0]/ _ourBags.MaxValue + _ourBags.BagsValue[0] / (_ourBags.MaxValue* _ourBags.MaxValue);
+            if (_calculateThread.IsAlive)
+            {
+                button1.Text = @"Start";
+                button1.Enabled = true;
+                progressBar1.Value = 0;
+            }
+            
             Refresh();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _calculateThread.Abort();
         }
     }
 }
