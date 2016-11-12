@@ -36,6 +36,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.maxPieces = new System.Windows.Forms.NumericUpDown();
             this.Log = new System.Windows.Forms.RichTextBox();
+            this.Refresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numberOfBags)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPieces)).BeginInit();
             this.SuspendLayout();
@@ -126,11 +127,22 @@
             this.Log.TabIndex = 7;
             this.Log.Text = "";
             // 
+            // Refresh
+            // 
+            this.Refresh.Location = new System.Drawing.Point(311, 264);
+            this.Refresh.Name = "Refresh";
+            this.Refresh.Size = new System.Drawing.Size(75, 23);
+            this.Refresh.TabIndex = 8;
+            this.Refresh.Text = "Refresh";
+            this.Refresh.UseVisualStyleBackColor = true;
+            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(760, 328);
+            this.Controls.Add(this.Refresh);
             this.Controls.Add(this.Log);
             this.Controls.Add(this.maxPieces);
             this.Controls.Add(this.label2);
@@ -158,6 +170,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown maxPieces;
         private System.Windows.Forms.RichTextBox Log;
+        private System.Windows.Forms.Button Refresh;
     }
 }
 

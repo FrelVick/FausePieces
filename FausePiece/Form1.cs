@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace FausePiece
 {
     public partial class Form1 : Form
     {
+        private Bags _ourBags;
+
+        private Thread _calculateThread;
+
         public Form1()
         {
             InitializeComponent();
@@ -13,30 +18,21 @@ namespace FausePiece
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var ourBags = new Bags((int) numberOfBags.Value);
-            var prevState = new[] {1, 2, 3, 4, 6, 44, 48, 134, 190, 489};
-            if ((int) numberOfBags.Value == 10) ourBags.BagsValue = prevState;
-            ourBags.MaxValue = (int) maxPieces.Value + 1;
+            _ourBags = new Bags((int)numberOfBags.Value);
+            var prevState = new[] {1, 2, 4, 7, 10, 13, 49, 129, 253, 264};
+            if ((int) numberOfBags.Value == 10) _ourBags.BagsValue = prevState;
+            _ourBags.MaxValue = (int) maxPieces.Value + 1;
+            _calculateThread = new Thread(Bags.FindMinimalBags);
+            _calculateThread.Start(_ourBags);
+        }
 
-            while (ourBags.BagsValue[0] != ourBags.MaxValue - (int) numberOfBags.Value)
-            {
-                if (ourBags.BagsFullUniqTest() && (ourBags.MaxBagValue() < ourBags.MaxValue))
-                {
-                    Log.Text += ourBags.GetBagsAsString() + @";
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            Log.Text += _ourBags.GetBagsAsString() + @";
 ";
-                    ourBags.MaxValue = ourBags.MaxBagValue();
-                    LocalMax.Text = ourBags.MaxValue.ToString();
-                    Answer.Text = ourBags.GetBagsAsString();
-                    Refresh();
-                }
-                var dubPos = (int) numberOfBags.Value-1;
-
-                while (dubPos != -1 && ourBags.BagsValue[0] != ourBags.MaxValue - (int)numberOfBags.Value)
-                {
-                    ourBags.IncrementBag(dubPos);
-                    dubPos = ourBags.BagsLittleUniqTest();
-                }
-            }
+            LocalMax.Text = _ourBags.MaxValue.ToString();
+            Answer.Text = _ourBags.GetBagsAsString();
+            Refresh();
         }
     }
 }
@@ -44,6 +40,8 @@ namespace FausePiece
 public class Bags
 {
     private int[] _weightValue;
+
+    private string _bagsAsString;
 
     public int MaxValue { get; set; }
 
@@ -63,7 +61,7 @@ public class Bags
 
     public string GetBagsAsString()
     {
-        return BagsValue.Aggregate("", (current, i) => current + (i + " "));
+        return _bagsAsString;
     }
 
     public int MaxBagValue()
@@ -92,6 +90,26 @@ public class Bags
                 for (var k = j + 1; k < BagsValue.Length; k++)
                     if (BagsValue[i] + BagsValue[j] == BagsValue[k]) return k;
         return -1;
+    }
+
+    public static void FindMinimalBags(object input)
+    {
+        var ourBags = (Bags) input;
+        while (ourBags.BagsValue[0] != ourBags.MaxValue - ourBags.BagsValue.Length)
+        {
+            if (ourBags.BagsFullUniqTest() && (ourBags.MaxBagValue() < ourBags.MaxValue))
+            {
+                ourBags._bagsAsString = ourBags.BagsValue.Aggregate("", (current, i) => current + (i + " "));
+                ourBags.MaxValue = ourBags.MaxBagValue();
+            }
+            var dubPos = ourBags.BagsValue.Length - 1;
+
+            while (dubPos != -1 && ourBags.BagsValue[0] != ourBags.MaxValue - ourBags.BagsValue.Length)
+            {
+                ourBags.IncrementBag(dubPos);
+                dubPos = ourBags.BagsLittleUniqTest();
+            }
+        }
     }
 
     public void IncrementBag(int elem)
