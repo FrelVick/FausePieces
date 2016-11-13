@@ -46,5 +46,17 @@ namespace FausePiece.Properties {
                 this["Max10"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MaxValue10 {
+            get {
+                return ((string)(this["MaxValue10"]));
+            }
+            set {
+                this["MaxValue10"] = value;
+            }
+        }
     }
 }

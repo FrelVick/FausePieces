@@ -8,5 +8,8 @@
     <Setting Name="Max10" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">501</Value>
     </Setting>
+    <Setting Name="MaxValue10" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
