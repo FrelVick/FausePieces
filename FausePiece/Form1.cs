@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using FausePiece.Properties;
 
 namespace FausePiece
 {
@@ -19,9 +20,9 @@ namespace FausePiece
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Refresh.Enabled = true;
             _ourBags = new Bags((int)numberOfBags.Value);
-            var prevState = new[] { 1, 2, 4, 7, 10, 15, 263, 354, 405, 453 };
-            if ((int) numberOfBags.Value == 10) _ourBags.BagsValue = prevState;
+            if ((int) numberOfBags.Value == 10) Load10Sate();
             _ourBags.MaxValue = (int) maxPieces.Value + 1;
             _calculateThread = new Thread(Bags.FindMinimalBags);
             _calculateThread.Start(_ourBags);
@@ -45,6 +46,9 @@ namespace FausePiece
                 button1.Text = @"Start";
                 button1.Enabled = true;
                 progressBar1.Value = 0;
+                if ((int)numberOfBags.Value == 10) Save10State();
+                Settings.Default.Save();
+                Refresh.Enabled = false;
             }
             
             Refresh();
@@ -53,6 +57,22 @@ namespace FausePiece
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             _calculateThread.Abort();
+            if ((int)numberOfBags.Value == 10) Save10State();
+            Settings.Default.Save();
+        }
+
+        private void Save10State()
+        {
+            Settings.Default.Calcul10 = string.Join(",", _ourBags.BagsValue.Select(i => i.ToString()).ToArray());
+            Settings.Default.Max10 = _ourBags.MaxValue;
+        }
+
+        private void Load10Sate()
+        {
+            var prevState = Settings.Default.Calcul10.Split(',').Select(int.Parse).ToArray();
+            if ((int) numberOfBags.Value != 10) return;
+            _ourBags.BagsValue = prevState;
+            _ourBags.MaxValue = Settings.Default.Max10;
         }
     }
 }
