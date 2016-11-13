@@ -89,7 +89,7 @@
             this.numberOfBags.Size = new System.Drawing.Size(46, 20);
             this.numberOfBags.TabIndex = 4;
             this.numberOfBags.Value = new decimal(new int[] {
-            5,
+            10,
             0,
             0,
             0});
@@ -115,7 +115,7 @@
             this.maxPieces.Size = new System.Drawing.Size(43, 20);
             this.maxPieces.TabIndex = 6;
             this.maxPieces.Value = new decimal(new int[] {
-            20,
+            500,
             0,
             0,
             0});
@@ -130,6 +130,7 @@
             // 
             // Refresh
             // 
+            this.Refresh.Enabled = false;
             this.Refresh.Location = new System.Drawing.Point(311, 264);
             this.Refresh.Name = "Refresh";
             this.Refresh.Size = new System.Drawing.Size(75, 23);
