@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -19,7 +20,7 @@ namespace FausePiece
         private void button1_Click(object sender, EventArgs e)
         {
             _ourBags = new Bags((int)numberOfBags.Value);
-            var prevState = new[] { 1, 2, 4, 7, 10, 13, 53, 215, 252, 269 };
+            var prevState = new[] { 1, 2, 4, 7, 10, 15, 263, 354, 405, 453 };
             if ((int) numberOfBags.Value == 10) _ourBags.BagsValue = prevState;
             _ourBags.MaxValue = (int) maxPieces.Value + 1;
             _calculateThread = new Thread(Bags.FindMinimalBags);
@@ -36,11 +37,9 @@ namespace FausePiece
             }
             Log.Text += @"; actual
 ";
-            Log.Text += _ourBags.GetBagsAsString() + @"; minimal
-";
             LocalMax.Text = _ourBags.MaxValue.ToString();
             Answer.Text = _ourBags.GetBagsAsString();
-            progressBar1.Value=_ourBags.BagsValue[0]/ _ourBags.MaxValue + _ourBags.BagsValue[0] / (_ourBags.MaxValue* _ourBags.MaxValue);
+            progressBar1.Value=100*(_ourBags.BagsValue[0]/ _ourBags.MaxValue + _ourBags.BagsValue[0] / (_ourBags.MaxValue* _ourBags.MaxValue));
             if (!_calculateThread.IsAlive)
             {
                 button1.Text = @"Start";
@@ -60,8 +59,6 @@ namespace FausePiece
 
 public class Bags
 {
-    private int[] _weightValue;
-
     private string _bagsAsString;
 
     public int MaxValue { get; set; }
@@ -92,14 +89,11 @@ public class Bags
 
     public bool BagsFullUniqTest()
     {
-        _weightValue = new int[(int) Math.Pow(2, BagsValue.Length)];
-        for (var i = 1; i < _weightValue.Length; i++)
+        var weightValue = new SortedSet<int>();
+        for (var i = 1; i < (int)Math.Pow(2, BagsValue.Length); i++)
         {
             var currNumber = BagsValue.Select((t, j) => t*((i >> j)%2)).Sum();
-            if (Array.IndexOf(_weightValue, currNumber) == -1)
-                _weightValue[i] = currNumber;
-            else
-                return false;
+            if (!weightValue.Add(currNumber)) return false;
         }
         return true;
     }
