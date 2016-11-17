@@ -21,8 +21,7 @@ namespace FausePiece
         private void button1_Click(object sender, EventArgs e)
         {
             Refresh.Enabled = true;
-            _ourBags = new Bags((int)numberOfBags.Value);
-            _ourBags.MaxValue = (int)maxPieces.Value + 1;
+            _ourBags = new Bags((int) numberOfBags.Value) {MaxValue = (int) maxPieces.Value + 1};
             if ((int) numberOfBags.Value == 10) Load10Sate();
             _calculateThread = new Thread(Bags.FindMinimalBags);
             _calculateThread.Start(_ourBags);
@@ -58,7 +57,6 @@ namespace FausePiece
         {
             _calculateThread.Abort();
             if ((int)numberOfBags.Value == 10) Save10State();
-            Settings.Default.Save();
         }
 
         private void Save10State()
@@ -66,6 +64,7 @@ namespace FausePiece
             Settings.Default.Calcul10 = string.Join(",", _ourBags.BagsValue.Select(i => i.ToString()).ToArray());
             Settings.Default.Max10 = _ourBags.MaxValue;
             Settings.Default.MaxValue10 = _ourBags.GetBagsAsString();
+            Settings.Default.Save();
         }
 
         private void Load10Sate()
