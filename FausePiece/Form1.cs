@@ -39,7 +39,7 @@ namespace FausePiece
 ";
             LocalMax.Text = _ourBags.MaxValue.ToString();
             Answer.Text = _ourBags.GetBagsAsString();
-            progressBar1.Value=100*(_ourBags.BagsValue[0]/ _ourBags.MaxValue + _ourBags.BagsValue[0] / (_ourBags.MaxValue* _ourBags.MaxValue));
+            //progressBar1.Value=100*(_ourBags.BagsValue[0]/ _ourBags.MaxValue + _ourBags.BagsValue[0] / (_ourBags.MaxValue* _ourBags.MaxValue));
             if (!_calculateThread.IsAlive)
             {
                 button1.Text = @"Start";
@@ -55,7 +55,7 @@ namespace FausePiece
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _calculateThread.Abort();
+            if (_calculateThread.IsAlive) _calculateThread.Abort();
             if ((int)numberOfBags.Value == 10) Save10State();
         }
 
@@ -74,6 +74,11 @@ namespace FausePiece
             _ourBags.BagsValue = prevState;
             _ourBags.MaxValue = Settings.Default.Max10;
             _ourBags.SetBagsAsString(Settings.Default.MaxValue10);
+        }
+
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            Log.Text = "";
         }
     }
 }
@@ -113,15 +118,23 @@ public class Bags
         return BagsValue.Max();
     }
 
-    public bool BagsFullUniqTest()
+    public int BagsFullUniqTest()
     {
         var weightValue = new SortedSet<int>();
         for (var i = 1; i < (int)Math.Pow(2, BagsValue.Length); i++)
         {
             var currNumber = BagsValue.Select((t, j) => t*((i >> j)%2)).Sum();
-            if (!weightValue.Add(currNumber)) return false;
+            if (weightValue.Add(currNumber)) continue;
+            var maxBit = 1;
+            var k = 2;
+            while (i/k !=0)
+            {
+                k*=2;
+                maxBit++;
+            }
+            return maxBit-1;
         }
-        return true;
+        return 0;
     }
 
     public int BagsLittleUniqTest()
@@ -136,20 +149,19 @@ public class Bags
     public static void FindMinimalBags(object input)
     {
         var ourBags = (Bags) input;
-        while (ourBags.BagsValue[0] != ourBags.MaxValue - ourBags.BagsValue.Length)
+        while (ourBags.BagsValue[0] != ourBags.MaxValue - (ourBags.BagsValue.Length-1))
         {
-            if (ourBags.BagsFullUniqTest() && (ourBags.MaxBagValue() < ourBags.MaxValue))
+            var dubPos = ourBags.BagsFullUniqTest();
+            if (dubPos == 0)
             {
-                ourBags._bagsAsString = ourBags.BagsValue.Aggregate("", (current, i) => current + (i + " "));
-                ourBags.MaxValue = ourBags.MaxBagValue();
+                dubPos = ourBags.BagsValue.Length - 1;
+                if (ourBags.MaxBagValue() < ourBags.MaxValue)
+                {
+                    ourBags._bagsAsString = ourBags.BagsValue.Aggregate("", (current, i) => current + (i + " "));
+                    ourBags.MaxValue = ourBags.MaxBagValue();
+                }
             }
-            var dubPos = ourBags.BagsValue.Length - 1;
-
-            while (dubPos != -1 && ourBags.BagsValue[0] != ourBags.MaxValue - ourBags.BagsValue.Length)
-            {
-                ourBags.IncrementBag(dubPos);
-                dubPos = ourBags.BagsLittleUniqTest();
-            }
+            ourBags.IncrementBag(dubPos);
         }
     }
 
@@ -157,7 +169,7 @@ public class Bags
     {
         while (true)
         {
-            if ((BagsValue[elem] == MaxValue - (BagsValue.Length - elem - 1)) && elem != 0)
+            if ((BagsValue[elem] >= MaxValue - (BagsValue.Length - elem - 1)) && elem != 0)
             {
                 elem = elem - 1;
                 continue;
