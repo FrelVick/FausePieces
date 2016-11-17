@@ -20,7 +20,7 @@ namespace FausePiece
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Refresh.Enabled = true;
+            RefreshStatus.Enabled = true;
             _ourBags = new Bags((int) numberOfBags.Value) {MaxValue = (int) maxPieces.Value + 1};
             if ((int) numberOfBags.Value == 10) Load10Sate();
             _calculateThread = new Thread(Bags.FindMinimalBags);
@@ -47,7 +47,7 @@ namespace FausePiece
                 progressBar1.Value = 0;
                 if ((int)numberOfBags.Value == 10) Save10State();
                 Settings.Default.Save();
-                Refresh.Enabled = false;
+                RefreshStatus.Enabled = false;
             }
             
             Refresh();

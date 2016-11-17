@@ -36,7 +36,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.maxPieces = new System.Windows.Forms.NumericUpDown();
             this.Log = new System.Windows.Forms.RichTextBox();
-            this.Refresh = new System.Windows.Forms.Button();
+            this.RefreshStatus = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.Clear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numberOfBags)).BeginInit();
@@ -129,16 +129,16 @@
             this.Log.TabIndex = 7;
             this.Log.Text = "";
             // 
-            // Refresh
+            // RefreshStatus
             // 
-            this.Refresh.Enabled = false;
-            this.Refresh.Location = new System.Drawing.Point(311, 264);
-            this.Refresh.Name = "Refresh";
-            this.Refresh.Size = new System.Drawing.Size(75, 23);
-            this.Refresh.TabIndex = 8;
-            this.Refresh.Text = "Refresh";
-            this.Refresh.UseVisualStyleBackColor = true;
-            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
+            this.RefreshStatus.Enabled = false;
+            this.RefreshStatus.Location = new System.Drawing.Point(311, 264);
+            this.RefreshStatus.Name = "RefreshStatus";
+            this.RefreshStatus.Size = new System.Drawing.Size(75, 23);
+            this.RefreshStatus.TabIndex = 8;
+            this.RefreshStatus.Text = "Refresh";
+            this.RefreshStatus.UseVisualStyleBackColor = true;
+            this.RefreshStatus.Click += new System.EventHandler(this.Refresh_Click);
             // 
             // progressBar1
             // 
@@ -166,7 +166,7 @@
             this.ClientSize = new System.Drawing.Size(760, 328);
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.Refresh);
+            this.Controls.Add(this.RefreshStatus);
             this.Controls.Add(this.Log);
             this.Controls.Add(this.maxPieces);
             this.Controls.Add(this.label2);
@@ -195,7 +195,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown maxPieces;
         private System.Windows.Forms.RichTextBox Log;
-        private System.Windows.Forms.Button Refresh;
+        private System.Windows.Forms.Button RefreshStatus;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button Clear;
     }
