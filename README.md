@@ -15,9 +15,7 @@ Vous avez une balance qui vous donne le poids d'un paquet de pièces.
 
 Build release in Visual Studio
 
-After first run go to LOCALAPPDATA \ FausePiece \ FausePiece.exe_[strange string] \1.0.0.0
-
-and replace user.config by [this config file](./user.config)
+Run
 
 ## Runing
 
